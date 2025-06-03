@@ -1,10 +1,6 @@
-# EXPERIMENT 02 INTEFACING A DIGITAL INPUT TO ARM DEVELOPMENT BOARD
-## Aim: 
-To Interface a Digital Input  (userpush button  ) to ARM   development board and write a  program to obtain  the data and flash the led  
-
-## Components required: 
-STM32 CUBE IDE, ARM IOT development board,  STM programmer tool.
-
+'# EXPERIMENT 02 INTEFACING A DIGITAL INPUT TO ARM DEVELOPMENT BOARD
+## Aim: To Interface a Digital Input  (userpush button  ) to ARM   development board and write a  program to obtain  the data and flash the led  
+## Components required: STM32 CUBE IDE, ARM IOT development board,  STM programmer tool.
 ## Theory 
 The full form of an ARM is an advanced reduced instruction set computer (RISC) machine, and it is a 32-bit processor architecture expanded by ARM holdings. The applications of an ARM processor include several microcontrollers as well as processors. The architecture of an ARM processor was licensed by many corporations for designing ARM processor-based SoC products and CPUs. This allows the corporations to manufacture their products using ARM architecture. Likewise, all main semiconductor companies will make ARM-based SOCs such as Samsung, Atmel, TI etc.
 
@@ -55,119 +51,47 @@ The full form of an ARM is an advanced reduced instruction set computer (RISC) m
 
 
 ## STM 32 CUBE PROGRAM :
-```#include "main.h"
+``````````
+#include "main.h"
 #include <stdbool.h>
-
+void push_button();
 bool button_status;
-void led();
-void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-
 int main(void)
-{
-    HAL_Init();
-    SystemClock_Config();
-    MX_GPIO_Init();
-
-    while (1)
-    {
-        led();
-    }
-    /* USER CODE END 3 */
-}
-
-void led()
-{
-    button_status = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
-    if (button_status == 0)
-    {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-    }
-    else
-    {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-    }
-    HAL_Delay(500);
-}
-
-void SystemClock_Config(void)
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 
   {
-    Error_Handler();
+   HAL-Init();
+   System clock-config();
+   MX_GPIO-Init();
+   while(1){
+	  push_button();
+   }
   }
+  
 
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    Error_Handler();
-  }
+void push_button(){
+	button_status=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_13);
+	if(button_status==1)
+	{
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_SET);
+		HAL_Delay(500);
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_RESET);
+		HAL_Delay(500);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_RESET);
+		
+	}
 }
-
-
-static void MX_GPIO_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-}
-
-
-void Error_Handler(void)
-{
-
-  __disable_irq();
-  while (1)
-  {
-  }
-
-}
-
-#ifdef  USE_FULL_ASSERT
-
-void assert_failed(uint8_t *file, uint32_t line)
-{
-
-}
-#endif
-```
-
-
+````````````
 ## Output  :
-## LED OFF:
-![OUTPUT1](https://github.com/user-attachments/assets/21ab55bc-8f3c-4f62-a5c5-3b0eea1e39ce)
-## LED ON:
-![output2](https://github.com/user-attachments/assets/837bfdb6-f80e-497c-892a-d7db50139732)
+ ![1](https://github.com/user-attachments/assets/03352b7f-05f7-425d-93f3-2e9bd38eefb2)
+ ![2](https://github.com/user-attachments/assets/9b703945-8fba-4d0f-b618-17071cefdbab)
 
+
+## layout of the circuit 
+ ![layout](https://github.com/user-attachments/assets/d0b5ec4f-d772-42f3-b503-0f67241105cb)
+
+ 
 ## Result :
 Interfacing a digital Input (Pushbutton ) with ARM microcontroller based IOT development is executed and the results are verified.
